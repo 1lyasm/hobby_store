@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title> Login - Hobby store </title>
+    <title> Register - Hobby store </title>
 
     <style>
         #uname_label,
@@ -12,12 +12,15 @@
             line-height: 70px;
         }
 
-        #login_form {
+        #reg_form {
             margin-top: 250px;
             margin-left: 775px;
         }
 
         #uname_box,
+        #surname_box,
+        #addr_box,
+        #phone_box,
         #passw_box {
             height: 38px;
             text-indent: 10px;
@@ -30,7 +33,7 @@
             border-color: rgb(215, 215, 190);
         }
 
-        #login_button {
+        #reg_button {
             height: 35px;
             width: 320px;
             border-radius: 9px;
@@ -55,10 +58,25 @@
 </head>
 
 <body>
-    <form method="post" id="login_form">
+    <form method="post" id="reg_form">
 
         <div id="boxes">
             <input type="text" name="uname" id="uname_box" placeholder="Username">
+            </input>
+
+            <br>
+
+            <input type="text" name="surname" id="surname_box" placeholder="Surname">
+            </input>
+
+            <br>
+
+            <input type="text" name="addr" id="addr_box" placeholder="Address">
+            </input>
+
+            <br>
+
+            <input type="text" name="phone" id="phone_box" placeholder="Phone">
             </input>
 
             <br>
@@ -69,10 +87,7 @@
 
         <br>
 
-        <button type="submit" id="login_button">Log in</button>
-        <br>
-        <br>
-        <a id="reg_link" href="/register">Register</a>
+        <button type="submit" id="reg_button">Register</button>
 
         <label>{{ msg }}</label>
 
