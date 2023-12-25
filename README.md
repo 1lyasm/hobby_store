@@ -15,3 +15,8 @@ make init
 ```
 
 Now, database is initialized and site is ready to be used
+
+# Running
+```
+make debug
+```
