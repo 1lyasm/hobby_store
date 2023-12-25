@@ -16,4 +16,7 @@ def about():
 
 @app.route("/login", methods=('GET', 'POST'))
 def login():
+    if request.method == "POST":
+        uname = request.form["uname"]
+        print(uname)
     return render_template("login.html")
