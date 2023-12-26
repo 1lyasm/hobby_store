@@ -54,7 +54,8 @@ insert into passwords values(nextval('users_ids'), 'passw_7');
 insert into passwords values(nextval('users_ids'), 'passw_8');
 insert into passwords values(nextval('users_ids'), 'passw_9');
 
-alter table passwords add foreign key(id) references users(id);
+alter table passwords add foreign key(id) references users(id)
+    on delete cascade;
 
 drop table if exists items cascade;
 
@@ -92,7 +93,7 @@ create table buy (
     n int not null
 );
 
-alter table buy add foreign key(user_id) references users(id);
+alter table buy add foreign key(user_id) references users(id) on delete cascade;
 alter table buy add foreign key(item_id) references items(id);
 alter table buy add constraint positive_n check(n > 0);
 

@@ -54,7 +54,6 @@ def sort_items(col_to_sort):
 def home():
     if logged_in is False:
         return redirect("/login")
-    print(request.form)
     if request.method == "POST" and request.form["sort_by_form"] == "sort_by_form":
         col_to_sort = request.form["col_to_sort"]
         items = sort_items(col_to_sort)
@@ -186,8 +185,20 @@ def fetch_bought():
     conn.close()
     return bought, n_bought
 
+def delete_user():
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute("begin")
+    cursor.execute(f"""delete from users where name = '{cur_user}';""")
+    cursor.execute("end")
+    cursor.close()
+    conn.close()
+
 @app.route("/account", methods=('GET', 'POST'))
 def account():
+    if request.method == "POST":
+        delete_user()
+        return redirect("/login")
     uname, surname, addr, phone, spent = fetch_info()
     if surname is None:
         surname = ""
