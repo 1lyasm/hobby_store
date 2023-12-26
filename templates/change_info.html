@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+<h1>{% block title %} Buy {% endblock %}</h1>
+
+{% block content %}
+
+
+<style>
+    #uname_label,
+    #passw_label {
+        font-size: xx-large;
+        line-height: 70px;
+    }
+
+    #reg_form {
+        margin-top: 250px;
+        margin-left: 775px;
+    }
+
+    #uname_box,
+    #surname_box,
+    #addr_box,
+    #phone_box,
+    #passw_box {
+        height: 38px;
+        text-indent: 10px;
+        font-size: 0.365cm;
+        border-radius: 3px;
+        width: 320px;
+        background-color: rgb(250, 250, 220);
+        border-width: 0.05cm;
+        border-style: solid;
+        border-color: rgb(215, 215, 190);
+    }
+
+    #change_button {
+        height: 35px;
+        width: 320px;
+        border-radius: 9px;
+        font-size: 0.43cm;
+        font-weight: 600;
+        margin-left: 0px;
+        margin-top: -5px;
+        background-color: rgb(65, 185, 75);
+        border-color: turquoise;
+        color: white;
+        text-align: center;
+    }
+
+    #boxes>* {
+        margin: 3px 0;
+    }
+
+    button {
+        all: unset;
+    }
+
+    #msg {
+        font-size: x-large;
+    }
+</style>
+
+<form method="post" id="reg_form">
+
+    <div id="boxes">
+        <input type="text" name="surname" id="surname_box" placeholder="Surname">
+        </input>
+
+        <br>
+
+        <input type="text" name="addr" id="addr_box" placeholder="Address">
+        </input>
+
+        <br>
+
+        <input type="text" name="phone" id="phone_box" placeholder="Phone">
+        </input>
+
+        <br>
+
+        <input type="text" name="passw" id="passw_box" placeholder="Password">
+        </input>
+    </div>
+
+    <br>
+
+    <button type="submit" id="change_button">Change</button>
+
+    <br>
+    <br>
+    <label id="msg">{{ msg }}</label>
+
+</form>
+
+{% endblock %}

@@ -209,3 +209,30 @@ def buy():
             return render_template("buy.html", msg=msg)
         return redirect("/home")
     return render_template("buy.html", msg=msg)
+
+
+def update_info(new_surn, new_addr, new_phone, new_passw):
+    conn = connect()
+    cursor = conn.cursor()
+
+    cursor.execute("begin")
+    cursor.execute(f"select id from users where name = '{cur_user}';")
+    cur_id = cursor.fetchall()[0][0]
+    cursor.execute(f"""update users set surname = '{new_surn}', addr = '{new_addr}',
+                   phone = '{new_phone}' where id = {cur_id};""")
+    cursor.execute(f"""update passwords set passw = '{new_passw}'
+                   where id = {cur_id};""")
+    cursor.execute("end")
+
+    cursor.close()
+    conn.close()
+
+@app.route("/change_info", methods=('GET', 'POST'))
+def change_info():
+    if request.method == "POST":
+        new_surn = request.form["surname"]
+        new_addr = request.form["addr"]
+        new_phone = request.form["phone"]
+        new_passw = request.form["passw"]
+        update_info(new_surn, new_addr, new_phone, new_passw)
+    return render_template("change_info.html")
