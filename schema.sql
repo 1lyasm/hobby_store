@@ -1,7 +1,7 @@
 begin;
 
 drop table if exists users cascade;
-drop table if exists passwords;
+drop table if exists passwords cascade;
 
 create table users (
     id int primary key not null,
@@ -82,10 +82,36 @@ insert into items values(nextval('items_ids'), 'soap', 6, 10, 0, 7.6);
 insert into items values(nextval('items_ids'), 'bracelet', 6, 2, 0, 8.1);
 insert into items values(nextval('items_ids'), 'necklace', 1, 2, 0, 50);
 
+create or replace function check_duplicates() returns boolean as $$
+    declare
+        more_than_three cursor for
+            select
+                name, count(*)
+            from
+                items
+            group by
+                name
+            having
+                count(*) >= 3;
+        count int := 0;
+        res boolean := true;
+    begin
+        for i in more_than_three loop
+            count = count + 1;
+        end loop;
+        if count > 0 then
+            res = false;
+        end if;
+        raise notice 'res: %', res;
+        return res;
+    end;
+$$ language 'plpgsql';
+
 alter table items add foreign key(seller) references users(id);
 alter table items add constraint sold_less_than_tot check(n_total >= n_sold);
+alter table items add constraint less_than_4_same_name check(check_duplicates());
 
-drop table if exists buy;
+drop table if exists buy cascade;
 
 create table buy (
     user_id int not null,

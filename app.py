@@ -287,14 +287,20 @@ def check_inp(name, count, price):
 def add_item(name, count, price):
     conn = connect()
     cursor = conn.cursor()
+    msg = ""
     cursor.execute(f"select id from users where name = '{cur_user}';")
     cur_id = cursor.fetchall()[0][0]
     cursor.execute("begin")
-    cursor.execute(f"""insert into items values(nextval('items_ids'),
+    try:
+        cursor.execute(f"""insert into items values(nextval('items_ids'),
                    '{name}', {cur_id}, {count}, 0, {price});""")
+    except:
+        cursor.execute("rollback;")
+        msg = "Can not have more than 3 items with same name, enter different name"
     cursor.execute("end")
     cursor.close()
     conn.close()
+    return msg
 
 @app.route("/sell", methods=('GET', 'POST'))
 def sell():
@@ -306,6 +312,8 @@ def sell():
         msg = check_inp(name, count, price)
         if len(msg) > 0:
             return render_template("sell.html", msg=msg)
-        add_item(name, count, price)
+        msg = add_item(name, count, price)
+        if len(msg) > 0:
+            return render_template("sell.html", msg=msg)
         return redirect("/home")
     return render_template("sell.html", msg=msg)
