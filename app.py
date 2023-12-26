@@ -30,11 +30,36 @@ def fetch_items():
     conn.close()
     return items
 
+def sort_items(col_to_sort):
+    conn = connect()
+    cursor = conn.cursor()
+    if col_to_sort == "Name":
+        table_prefix = "item_name"
+    elif col_to_sort == "Seller":
+        table_prefix = "seller_name"
+    elif col_to_sort == "Total count":
+        table_prefix = "n_total"
+    elif col_to_sort == "Sold count":
+        table_prefix = "n_sold"
+    elif col_to_sort == "Price":
+        table_prefix = "price"
+    cursor.execute(f"""select id, item_name, seller_name, n_total, n_sold, price
+                   from {table_prefix}_sorted;""")
+    items = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return items
+
 @app.route("/home", methods=('GET', 'POST'))
 def home():
     if logged_in is False:
         return redirect("/login")
-    if request.method == "POST":
+    print(request.form)
+    if request.method == "POST" and request.form["sort_by_form"] == "sort_by_form":
+        col_to_sort = request.form["col_to_sort"]
+        items = sort_items(col_to_sort)
+        return render_template("home.html", items=items)
+    elif request.method == "POST":
         global buy_id
         buy_id = request.form["buy_id"]
         return redirect("/buy")

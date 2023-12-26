@@ -24,6 +24,42 @@
 
 <a href="/sell">Sell and item</a>
 
+<!-- <label for="col_to_sort">Sort by:</label>
+
+<form method="POST">
+    <input name="col_to_sort">
+    <select id="col_to_sort">
+        <option value="name">Name</option>
+        <option value="seller">Seller</option>
+        <option value="n_total">Total count</option>
+        <option value="n_sold">Sold count</option>
+        <option value="price">Price</option>
+    </select>
+    </input>
+    <input type="hidden" name="sort_by_form" value="sort_by_form">
+    </input>
+    <button type="submit">
+        Submit
+    </button>
+</form> -->
+
+<form method="POST">
+    <label for="col_to_sort">Sort by:</label>
+    <input type="text" name="col_to_sort" list="col_list">
+    <datalist id="col_list">
+        <option value="Name"></option>
+        <option value="Seller"></option>
+        <option value="Total count"></option>
+        <option value="Sold count"></option>
+        <option value="Price"></option>
+    </datalist>
+    <input type="hidden" name="sort_by_form" value="sort_by_form">
+    </input>
+    <button type="submit">
+        Submit
+    </button>
+</form>
+
 <div class="grid-container">
 
     {% for item in items %}

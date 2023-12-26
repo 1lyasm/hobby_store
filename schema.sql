@@ -120,4 +120,34 @@ insert into buy values(7, 2, 2);
 insert into buy values(8, 1, 2);
 insert into buy values(9, 0, 2);
 
+create view item_name_sorted as
+select items.id as id, items.name as item_name,
+        users.name as seller_name, n_total, n_sold, price
+        from items, users where items.seller = users.id
+order by item_name;
+
+create view seller_name_sorted as
+select items.id as id, items.name as item_name,
+        users.name as seller_name, n_total, n_sold, price
+        from items, users where items.seller = users.id
+order by seller_name;
+
+create view n_total_sorted as
+select items.id as id, items.name as item_name,
+        users.name as seller_name, n_total, n_sold, price
+        from items, users where items.seller = users.id
+order by n_total;
+
+create view n_sold_sorted as
+select items.id as id, items.name as item_name,
+        users.name as seller_name, n_total, n_sold, price
+        from items, users where items.seller = users.id
+order by n_sold;
+
+create view price_sorted as
+select items.id as id, items.name as item_name,
+        users.name as seller_name, n_total, n_sold, price
+        from items, users where items.seller = users.id
+order by price;
+
 end;
