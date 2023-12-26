@@ -19,11 +19,22 @@ def connect():
 def index():
     return redirect("/login")
 
+def fetch_items():
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute("select items.id, items.name, users.name, n_total, n_sold,"
+                   "price from items, users where items.seller = users.id")
+    items = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return items
+
 @app.route("/home")
 def home():
     if logged_in is False:
         return redirect("/login")
-    return render_template("home.html")
+    items = fetch_items()
+    return render_template("home.html", items=items)
 
 @app.route("/about")
 def about():

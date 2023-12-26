@@ -4,5 +4,64 @@
 
 {% block content %}
 
+<style>
+    .grid-container {
+        margin-top: 25px;
+        margin-left: 40px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        padding: 10px;
+    }
+
+    .grid-item {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding-bottom: 30px;
+        font-size: xx-large;
+        text-align: left;
+        border-style: hidden;
+    }
+</style>
+
+
+<div class="grid-container">
+
+    {% for item in items %}
+
+    <div class="grid-item">
+        <div>
+            {{item[1]}} #{{item[0]}}
+        </div>
+
+        <div>
+            Seller: {{item[2]}}
+        </div>
+
+        <div>
+            Total number: {{ item[3] }}
+        </div>
+
+        <div>
+            Sold count: {{item[4]}}
+        </div>
+
+        <div>
+            Price: {{item[5]}}
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+<!-- <div class="grid-container">
+    <div class="grid-item">1</div>
+    <div class="grid-item">2</div>
+    <div class="grid-item">3</div>
+    <div class="grid-item">4</div>
+    <div class="grid-item">5</div>
+    <div class="grid-item">6</div>
+    <div class="grid-item">7</div>
+    <div class="grid-item">8</div>
+    <div class="grid-item">9</div>
+</div> -->
+
 
 {% endblock %}
