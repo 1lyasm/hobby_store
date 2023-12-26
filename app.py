@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 logged_in = False
 cur_user = ""
+buy_id = None
 
 def connect():
     return psql.connect(
@@ -29,10 +30,14 @@ def fetch_items():
     conn.close()
     return items
 
-@app.route("/home")
+@app.route("/home", methods=('GET', 'POST'))
 def home():
     if logged_in is False:
         return redirect("/login")
+    if request.method == "POST":
+        global buy_id
+        buy_id = request.form["buy_id"]
+        return redirect("/buy")
     items = fetch_items()
     return render_template("home.html", items=items)
 
@@ -136,7 +141,6 @@ def fetch_info():
     cursor.execute('begin')
     cursor.execute(f"select name, surname, addr, phone, spent from users where name = '{cur_user}'")
     res = cursor.fetchall()[0]
-    print(res)
     cursor.execute('end')
     cursor.close()
     conn.close()
@@ -153,3 +157,26 @@ def account():
         phone = ""
     return render_template("account.html", uname=uname,
                            surname=surname, addr=addr, phone=phone, spent=spent)
+
+def save_buy():
+    conn = connect()
+    cursor = conn.cursor()
+    msg = ""
+    cursor.execute("begin")
+    # try:
+        # cursor.execute(f"update n_sold ")
+    # except psql.errors.CheckViolation:
+    #     cursor.execute("rollback")
+    #     msg = "That many items are not in stock, please enter smaller value"
+    cursor.execute("end")
+    cursor.close()
+    conn.close()
+
+@app.route("/buy", methods=('GET', 'POST'))
+def buy():
+    msg = ""
+    if request.method == "POST":
+        count = request.form["n_buy"]
+        msg = save_buy()
+        return redirect("/home")
+    return render_template("buy.html", msg=msg)

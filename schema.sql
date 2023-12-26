@@ -67,6 +67,7 @@ create table items (
     price numeric not null
 );
 
+drop sequence if exists items_ids;
 create sequence items_ids start 0 increment 1 minvalue 0;
 
 insert into items values(nextval('items_ids'), 'candle', 9, 3, 0, 1.2);
@@ -81,5 +82,20 @@ insert into items values(nextval('items_ids'), 'bracelet', 6, 2, 0, 8.1);
 insert into items values(nextval('items_ids'), 'necklace', 1, 2, 0, 50);
 
 alter table items add foreign key(seller) references users(id);
+alter table items add constraint sold_less_than_tot check(n_total >= n_sold);
+
+drop table if exists buy;
+
+create table buy (
+    user_id int not null,
+    item_id int not null,
+    n int not null
+);
+
+alter table buy add foreign key(user_id) references users(id);
+alter table buy add foreign key(item_id) references items(id);
+alter table buy add constraint positive_n check(n > 0);
+
+insert into buy values(1, 9, 1);
 
 end;

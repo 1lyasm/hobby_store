@@ -22,15 +22,18 @@
     }
 </style>
 
-
 <div class="grid-container">
 
     {% for item in items %}
 
     <div class="grid-item">
-        <div>
-            {{item[1]}} #{{item[0]}}
-        </div>
+        <form method="POST">
+            <input type="hidden" name="buy_id" value={{item[0]}}>
+            </input>
+            <button type="submit">
+                {{item[1]}} #{{item[0]}}
+            </button>
+        </form>
 
         <div>
             Seller: {{item[2]}}
@@ -51,17 +54,5 @@
 
     {% endfor %}
 </div>
-<!-- <div class="grid-container">
-    <div class="grid-item">1</div>
-    <div class="grid-item">2</div>
-    <div class="grid-item">3</div>
-    <div class="grid-item">4</div>
-    <div class="grid-item">5</div>
-    <div class="grid-item">6</div>
-    <div class="grid-item">7</div>
-    <div class="grid-item">8</div>
-    <div class="grid-item">9</div>
-</div> -->
-
 
 {% endblock %}

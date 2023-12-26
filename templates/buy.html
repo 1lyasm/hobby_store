@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+<h1>{% block title %} Buy {% endblock %}</h1>
+
+{% block content %}
+
+<style>
+    .input_box {
+        height: 38px;
+        text-indent: 10px;
+        font-size: 0.365cm;
+        border-radius: 3px;
+        width: 320px;
+        background-color: rgb(250, 250, 220);
+        border-width: 0.05cm;
+        border-style: solid;
+        border-color: rgb(215, 215, 190);
+    }
+
+    #boxes>* {
+        margin: 3px 0;
+    }
+
+    #buy_button {
+        height: 35px;
+        width: 320px;
+        border-radius: 9px;
+        font-size: 0.43cm;
+        font-weight: 600;
+        margin-left: 0px;
+        margin-top: -5px;
+        background-color: rgb(65, 185, 75);
+        border-color: turquoise;
+        color: white;
+        text-align: center;
+    }
+
+    #buy_form {
+        margin-top: 250px;
+        margin-left: 775px;
+    }
+
+    button {
+        all: unset;
+    }
+</style>
+
+<form method="post" id="buy_form">
+    <div id="boxes">
+        <input type="text" name="n_buy" class="input_box" placeholder="Count">
+        </input>
+    </div>
+
+    <br>
+
+    <button type="submit" id="buy_button">Buy</button>
+
+    </button>
+</form>
+
+{% endblock %}
