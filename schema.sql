@@ -177,4 +177,35 @@ select items.id as id, items.name as item_name,
         from items, users where items.seller = users.id
 order by price;
 
+create or replace function search(query text) returns table (
+    id int,
+    name varchar(25),
+    seller_name varchar(25),
+    n_total int,
+    n_sold int,
+    price numeric
+) as $$
+    declare
+        rec record;
+        matches cursor for
+            select
+                items.id as id, items.name as name, users.name as seller_name,
+                items.n_total as n_total, items.n_sold as n_sold,
+                items.price as price
+            from items, users
+            where items.seller = users.id and
+                    items.name like query;
+    begin
+        for rec in matches loop
+            id = rec.id;
+            name = rec.name;
+            seller_name = rec.seller_name;
+            n_total = rec.n_total;
+            n_sold = rec.n_sold;
+            price = rec.price;
+            return next;
+        end loop;
+    end;
+$$ language 'plpgsql';
+
 end;

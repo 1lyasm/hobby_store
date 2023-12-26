@@ -22,7 +22,7 @@
     }
 </style>
 
-<a href="/sell">Sell and item</a>
+<a href="/sell">Sell an item</a>
 
 <form method="POST">
     <label for="col_to_sort">Sort by:</label>
@@ -38,6 +38,16 @@
     </input>
     <button type="submit">
         Submit
+    </button>
+</form>
+
+<form method="POST">
+    <input type="text" name="query">
+    </input>
+    <input type="hidden" name="search_form" value="search_form">
+    </input>
+    <button type="submit">
+        Search
     </button>
 </form>
 

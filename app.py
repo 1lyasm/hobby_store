@@ -50,13 +50,27 @@ def sort_items(col_to_sort):
     conn.close()
     return items
 
+def search(query):
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute(f"select * from search('%{query}%')")
+    items = cursor.fetchall()
+    print(f"items: {items}")
+    cursor.close()
+    conn.close()
+    return items
+
 @app.route("/home", methods=('GET', 'POST'))
 def home():
     if logged_in is False:
         return redirect("/login")
-    if request.method == "POST" and request.form["sort_by_form"] == "sort_by_form":
+    if request.method == "POST" and "sort_by_form" in request.form.keys():
         col_to_sort = request.form["col_to_sort"]
         items = sort_items(col_to_sort)
+        return render_template("home.html", items=items)
+    elif request.method == "POST" and "search_form" in request.form.keys():
+        query = request.form["query"]
+        items = search(query)
         return render_template("home.html", items=items)
     elif request.method == "POST":
         global buy_id
