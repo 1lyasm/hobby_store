@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+<h1>{% block title %} Buy {% endblock %}</h1>
+
+{% block content %}
+
+<form method="POST">
+    <label for="stats">Price statistics:</label>
+    <input type="text" name="stat" list="stat_list">
+    <datalist id="stat_list">
+        <option value="Min"></option>
+        <option value="Max"></option>
+        <option value="Count"></option>
+        <option value="Average"></option>
+        <option value="Sum"></option>
+    </datalist>
+    <input type="hidden" name="stat_form">
+    </input>
+    <button type="submit">
+        Submit
+    </button>
+</form>
+
+{% endblock %}

@@ -331,3 +331,19 @@ def sell():
             return render_template("sell.html", msg=msg)
         return redirect("/home")
     return render_template("sell.html", msg=msg)
+
+def fetch_stat(stat):
+    conn = connect()
+    cursor = conn.close()
+    # HERE
+    cursor.close()
+    conn.close()
+
+@app.route("/sell", methods=('GET', 'POST'))
+def stats():
+    res = ""
+    if request.method == "POST":
+        stat = request.form["stat"]
+        res = fetch_stat(stat)
+        return render_template("stats.html", res=res)
+    return render_template("stats.html", res=res)
