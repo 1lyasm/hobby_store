@@ -12,12 +12,60 @@
         margin-left: 50px;
         text-decoration: none;
     }
+
+    .grid-container {
+        margin-top: 25px;
+        margin-left: 40px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        padding: 10px;
+    }
+
+    .grid-item {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding-bottom: 30px;
+        font-size: xx-large;
+        text-align: left;
+        border-style: hidden;
+    }
 </style>
+
 
 <div class="info">Name: {{uname}}</div>
 <div class="info">Surname: {{surname}}</div>
 <div class="info">Addr: {{addr}}</div>
 <div class="info">Phone: {{phone}}</div>
 <div class="info">Spent: {{spent}}</div>
+
+<h1>Bought items:</h1>
+
+<div class="grid-container">
+
+    {% for item in bought %}
+
+    <div class="grid-item">
+        <div>
+            {{item[1]}} #{{item[0]}}
+        </div>
+
+        <div>
+            Seller: {{item[2]}}
+        </div>
+
+        <div>
+            Total number: {{ item[3] }}
+        </div>
+
+        <div>
+            Sold count: {{n_bought}}
+        </div>
+
+        <div>
+            Price: {{item[4]}}
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
 
 {% endblock %}

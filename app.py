@@ -146,6 +146,21 @@ def fetch_info():
     conn.close()
     return res
 
+def fetch_bought():
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute(f"select id from users where name = '{cur_user}';")
+    cur_id = cursor.fetchall()[0][0]
+    cursor.execute(f"""select distinct items.id, items.name, users.name, n_total,
+                   price from items, users, buy where buy.user_id = {cur_id}
+                   and buy.user_id = users.id and items.id = buy.item_id;""")
+    bought = cursor.fetchall()
+    cursor.execute(f"select sum(n) from buy where user_id = {cur_id}")
+    n_bought = cursor.fetchall()[0][0]
+    cursor.close()
+    conn.close()
+    return bought, n_bought
+
 @app.route("/account", methods=('GET', 'POST'))
 def account():
     uname, surname, addr, phone, spent = fetch_info()
@@ -155,8 +170,10 @@ def account():
         addr = ""
     if phone is None:
         phone = ""
+    bought, n_bought = fetch_bought()
     return render_template("account.html", uname=uname,
-                           surname=surname, addr=addr, phone=phone, spent=spent)
+                           surname=surname, addr=addr, phone=phone, spent=spent,
+                           bought = bought, n_bought=n_bought)
 
 def save_buy(count):
     conn = connect()
