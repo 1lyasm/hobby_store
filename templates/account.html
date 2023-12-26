@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+<h1>{% block title %} Account {% endblock %}</h1>
+
+{% block content %}
+
+<style>
+    .info {
+        color: purple;
+        font-size: xx-large;
+        margin-top: 25px;
+        margin-left: 50px;
+        text-decoration: none;
+    }
+</style>
+
+<div class="info">Name: {{uname}}</div>
+<div class="info">Surname: {{surname}}</div>
+<div class="info">Addr: {{addr}}</div>
+<div class="info">Phone: {{phone}}</div>
+<div class="info">Spent: {{spent}}</div>
+
+{% endblock %}

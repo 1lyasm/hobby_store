@@ -118,3 +118,27 @@ def register():
                 return render_template("register.html", msg=msg)
             return redirect("/login")
     return render_template("register.html", msg=msg)
+
+def fetch_info():
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute('begin')
+    cursor.execute(f"select name, surname, addr, phone, spent from users where name = '{cur_user}'")
+    res = cursor.fetchall()[0]
+    print(res)
+    cursor.execute('end')
+    cursor.close()
+    conn.close()
+    return res
+
+@app.route("/account", methods=('GET', 'POST'))
+def account():
+    uname, surname, addr, phone, spent = fetch_info()
+    if surname is None:
+        surname = ""
+    if addr is None:
+        addr = ""
+    if phone is None:
+        phone = ""
+    return render_template("account.html", uname=uname,
+                           surname=surname, addr=addr, phone=phone, spent=spent)
