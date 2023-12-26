@@ -236,3 +236,40 @@ def change_info():
         new_passw = request.form["passw"]
         update_info(new_surn, new_addr, new_phone, new_passw)
     return render_template("change_info.html")
+
+def check_inp(name, count, price):
+    msg = ""
+    if len(name) == 0 or len(count) == 0 or len(price) == 0:
+        msg = "Name, count, and price can not be empty"
+    try:
+        int(count)
+        float(price)
+    except:
+        msg = "Count must be int and price must be decimal number"
+    return msg
+
+def add_item(name, count, price):
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute(f"select id from users where name = '{cur_user}';")
+    cur_id = cursor.fetchall()[0][0]
+    cursor.execute("begin")
+    cursor.execute(f"""insert into items values(nextval('items_ids'),
+                   '{name}', {cur_id}, {count}, 0, {price});""")
+    cursor.execute("end")
+    cursor.close()
+    conn.close()
+
+@app.route("/sell", methods=('GET', 'POST'))
+def sell():
+    msg = ""
+    if request.method == "POST":
+        name = request.form["name"]
+        count = request.form["count"]
+        price = request.form["price"]
+        msg = check_inp(name, count, price)
+        if len(msg) > 0:
+            return render_template("sell.html", msg=msg)
+        add_item(name, count, price)
+        return redirect("/home")
+    return render_template("sell.html", msg=msg)
