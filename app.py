@@ -158,25 +158,30 @@ def account():
     return render_template("account.html", uname=uname,
                            surname=surname, addr=addr, phone=phone, spent=spent)
 
-def save_buy():
+def save_buy(count):
     conn = connect()
     cursor = conn.cursor()
     msg = ""
     cursor.execute("begin")
-    # try:
-        # cursor.execute(f"update n_sold ")
-    # except psql.errors.CheckViolation:
-    #     cursor.execute("rollback")
-    #     msg = "That many items are not in stock, please enter smaller value"
+    try:
+        cursor.execute(f"select id from users where name = '{cur_user}';")
+        user_id = cursor.fetchall()[0][0];
+        cursor.execute(f"insert into buy values({user_id}, {buy_id}, {count});")
+    except:
+        cursor.execute("rollback")
+        msg = "That many items are not in stock, please enter smaller amount"
     cursor.execute("end")
     cursor.close()
     conn.close()
+    return msg
 
 @app.route("/buy", methods=('GET', 'POST'))
 def buy():
     msg = ""
     if request.method == "POST":
         count = request.form["n_buy"]
-        msg = save_buy()
+        msg = save_buy(count)
+        if len(msg) > 0:
+            return render_template("buy.html", msg=msg)
         return redirect("/home")
     return render_template("buy.html", msg=msg)

@@ -96,6 +96,31 @@ alter table buy add foreign key(user_id) references users(id);
 alter table buy add foreign key(item_id) references items(id);
 alter table buy add constraint positive_n check(n > 0);
 
+create or replace function update_sold() returns trigger as $$
+    -- declare
+    --     new_sold int;
+    --     tot int;
+    begin
+        update items
+        set n_sold = n_sold + new.n
+        where items.id = new.item_id;
+        
+        -- select n_sold, n_total into new_sold, tot
+        -- from items
+        -- where items.id = new.item_id;
+
+        -- if new_sold > tot then
+        --     raise exception 'Sold bigger than total';
+        -- end if;
+
+        return new;
+    end;
+$$ language 'plpgsql';
+
+create or replace trigger trig_update_sold after insert on buy
+    for each row
+    execute function update_sold();
+
 insert into buy values(1, 9, 1);
 
 end;
