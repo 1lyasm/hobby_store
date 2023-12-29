@@ -107,7 +107,7 @@ create or replace function check_duplicates() returns boolean as $$
     end;
 $$ language 'plpgsql';
 
-alter table items add foreign key(seller) references users(id);
+alter table items add foreign key(seller) references users(id) on delete cascade;
 alter table items add constraint sold_less_than_tot check(n_total >= n_sold);
 alter table items add constraint less_than_4_same_name check(check_duplicates());
 
