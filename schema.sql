@@ -114,11 +114,16 @@ alter table items add constraint less_than_4_same_name check(check_duplicates())
 drop table if exists buy cascade;
 
 create table buy (
+    transaction_id int not null,
     user_id int not null,
     item_id int not null,
     n int not null
 );
 
+drop sequence if exists buy_sequence;
+create sequence buy_sequence start 0 increment 1 minvalue 0;
+
+alter table buy add primary key(transaction_id);
 alter table buy add foreign key(user_id) references users(id) on delete cascade;
 alter table buy add foreign key(item_id) references items(id);
 alter table buy add constraint positive_n check(n > 0);
@@ -136,16 +141,16 @@ create or replace trigger trig_update_sold after insert on buy
     for each row
     execute function update_sold();
 
-insert into buy values(0, 9, 1);
-insert into buy values(1, 8, 2);
-insert into buy values(2, 7, 2);
-insert into buy values(3, 6, 2);
-insert into buy values(4, 5, 2);
-insert into buy values(5, 4, 1);
-insert into buy values(6, 3, 1);
-insert into buy values(7, 2, 2);
-insert into buy values(8, 1, 2);
-insert into buy values(9, 0, 2);
+insert into buy values(nextval('buy_sequence'), 0, 9, 1);
+insert into buy values(nextval('buy_sequence'), 1, 8, 2);
+insert into buy values(nextval('buy_sequence'), 2, 7, 2);
+insert into buy values(nextval('buy_sequence'), 3, 6, 2);
+insert into buy values(nextval('buy_sequence'), 4, 5, 2);
+insert into buy values(nextval('buy_sequence'), 5, 4, 1);
+insert into buy values(nextval('buy_sequence'), 6, 3, 1);
+insert into buy values(nextval('buy_sequence'), 7, 2, 2);
+insert into buy values(nextval('buy_sequence'), 8, 1, 2);
+insert into buy values(nextval('buy_sequence'), 9, 0, 2);
 
 create view item_name_sorted as
 select items.id as id, items.name as item_name,

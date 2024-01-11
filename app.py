@@ -237,11 +237,11 @@ def save_buy(count):
         seller = cursor.fetchall()[0][0]
         if seller == user_id:
             raise AttributeError
-        cursor.execute(f"insert into buy values({user_id}, {buy_id}, {count});")
+        cursor.execute(f"insert into buy values(nextval('buy_sequence'), {user_id}, {buy_id}, {count});")
     except AttributeError:
         cursor.execute("rollback")
         msg = "Can not buy from yourself"
-    except:
+    except Exception as e:
         cursor.execute("rollback")
         msg = "That many items are not in stock, please enter smaller amount"
     cursor.execute("end")
