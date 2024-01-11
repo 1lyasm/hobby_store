@@ -334,12 +334,37 @@ def sell():
 
 def fetch_stat(stat):
     conn = connect()
-    cursor = conn.close()
-    # HERE
+    cursor = conn.cursor()
+
+    res = None
+
+    print(f"fetch_stat: stat: {stat}")
+
+    if stat == "Min":
+        cursor.execute(f"select price from items order by price asc limit 1")
+        res = cursor.fetchall()[0][0]
+    elif stat == "Max":
+        cursor.execute(f"select price from items order by price desc limit 1")
+        res = cursor.fetchall()[0][0]
+    elif stat == "Count":
+        cursor.execute(f"select count(*) from items")
+        res = cursor.fetchall()[0][0]
+    elif stat == "Average":
+        cursor.execute(f"select avg(price) from items")
+        res = cursor.fetchall()[0][0]
+    elif stat == "Sum":
+        cursor.execute(f"select sum(price) from items")
+        res = cursor.fetchall()[0][0]
+    else:
+        raise Exception
+
     cursor.close()
     conn.close()
 
-@app.route("/sell", methods=('GET', 'POST'))
+    return res
+
+
+@app.route("/stats", methods=('GET', 'POST'))
 def stats():
     res = ""
     if request.method == "POST":
@@ -347,3 +372,4 @@ def stats():
         res = fetch_stat(stat)
         return render_template("stats.html", res=res)
     return render_template("stats.html", res=res)
+
