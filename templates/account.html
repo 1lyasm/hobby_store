@@ -43,7 +43,7 @@
 
 <div class="grid-container">
 
-    {% for item in bought %}
+    {% for item, n in dict_.items() %}
 
     <div class="grid-item">
         <div>
@@ -59,7 +59,7 @@
         </div>
 
         <div>
-            Sold count: {{n_bought}}
+            Sold count: {{n}}
         </div>
 
         <div>
@@ -69,6 +69,23 @@
 
     {% endfor %}
 </div>
+
+
+<h1>Bought items with same name and different ids</h1>
+<div class="grid-container">
+
+    {% for item in duplicates %}
+
+    <div class="grid-item">
+        <div>
+            {{item[0]}}
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+
+
 
 <form method="POST">
     <button type="submit">

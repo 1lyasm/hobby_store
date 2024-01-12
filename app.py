@@ -187,17 +187,22 @@ def fetch_info():
 def fetch_bought():
     conn = connect()
     cursor = conn.cursor()
+
     cursor.execute(f"select id from users where name = '{cur_user}';")
     cur_id = cursor.fetchall()[0][0]
     cursor.execute(f"""select distinct items.id, items.name, users.name, n_total,
                    price from items, users, buy where buy.user_id = {cur_id}
                    and buy.user_id = users.id and items.id = buy.item_id;""")
     bought = cursor.fetchall()
-    cursor.execute(f"select sum(n) from buy where user_id = {cur_id}")
-    n_bought = cursor.fetchall()[0][0]
+    cursor.execute(f"select sum(n) from buy where user_id = {cur_id} group by item_id")
+    n_bought = cursor.fetchall()
+    dict_ = {key_: val_[0] for (key_, val_) in zip(bought, n_bought)}
+    print(dict_)
+
     cursor.close()
     conn.close()
-    return bought, n_bought
+    return dict_
+
 
 def delete_user():
     conn = connect()
@@ -207,6 +212,27 @@ def delete_user():
     cursor.execute("end")
     cursor.close()
     conn.close()
+
+
+def fetch_duplicate_named_items():
+    conn = connect()
+    cursor = conn.cursor()
+
+    cursor.execute(f"""select items.name from buy, items, users
+                   where items.id = item_id and users.id = user_id
+                        and users.name = '{cur_user}'
+                   group by items.name having count(distinct item_id) > 1""")
+    cursor_res = cursor.fetchall()
+    print(f"fetch_duplicate_named_items: cursor_res: {cursor_res}")
+    duplicates = []
+    if (len(cursor_res) > 0):
+        duplicates = cursor_res
+
+    cursor.close()
+    conn.close()
+
+    return duplicates
+
 
 @app.route("/account", methods=('GET', 'POST'))
 def account():
@@ -220,10 +246,11 @@ def account():
         addr = ""
     if phone is None:
         phone = ""
-    bought, n_bought = fetch_bought()
+    dict_ = fetch_bought()
+    duplicates = fetch_duplicate_named_items()
     return render_template("account.html", uname=uname,
                            surname=surname, addr=addr, phone=phone, spent=spent,
-                           bought = bought, n_bought=n_bought)
+                           dict_=dict_, duplicates=duplicates)
 
 def save_buy(count):
     conn = connect()

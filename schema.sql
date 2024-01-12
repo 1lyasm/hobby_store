@@ -81,6 +81,7 @@ insert into items values(nextval('items_ids'), 'portrait', 2, 3, 0, 990.9);
 insert into items values(nextval('items_ids'), 'soap', 6, 10, 0, 7.6);
 insert into items values(nextval('items_ids'), 'bracelet', 6, 2, 0, 8.1);
 insert into items values(nextval('items_ids'), 'necklace', 1, 2, 0, 50);
+insert into items values(nextval('items_ids'), 'candle', 7, 4, 0, 100);
 
 create or replace function check_duplicates() returns boolean as $$
     declare
