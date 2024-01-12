@@ -1,96 +1,118 @@
 {% extends 'base.html' %}
 
-<h1>{% block title %} Account {% endblock %}</h1>
+{% block title %} Account {% endblock %}
 
 {% block content %}
 
 <style>
     .info {
-        color: purple;
-        font-size: xx-large;
+        color: #6A5ACD; /* Adjusted to match the theme color */
+        font-size: large;
         margin-top: 25px;
         margin-left: 50px;
         text-decoration: none;
     }
 
     .grid-container {
-        margin-top: 25px;
-        margin-left: 40px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        padding: 10px;
+        gap: 20px;
+        padding: 20px;
+        margin-top: 25px;
     }
 
     .grid-item {
-        background-color: rgba(255, 255, 255, 0.8);
-        padding-bottom: 30px;
-        font-size: xx-large;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        font-size: medium;
+    }
+
+    .grid-item:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
+    }
+
+    #reg_link {
+        font-size: large;
+        color: #6A5ACD; /* Link color to match the theme */
+        text-decoration: none;
+        margin-left: 50px;
+    }
+
+    #reg_link:hover {
+        text-decoration: underline;
+    }
+
+    form {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    button {
+        background-color: #dc3545; /* Red color for delete button */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #c82333;
+    }
+    .action-link {
+        display: inline-block;
+        margin: 20px;
+        padding: 10px 20px;
+        background-color: #6A5ACD; /* Theme color */
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: large;
+        transition: background-color 0.3s;
+    }
+
+    .action-link:hover {
+        background-color: #695acd96;
+        text-decoration: none;
+        color: white;
+    }
+
+    .action-links-container {
         text-align: left;
-        border-style: hidden;
+        margin-top: 20px;
     }
 </style>
 
+<div class="info">Name: {{ uname }}</div>
+<div class="info">Surname: {{ surname }}</div>
+<div class="info">Address: {{ addr }}</div>
+<div class="info">Phone: {{ phone }}</div>
+<div class="info">Spent: {{ spent }}</div>
 
-<div class="info">Name: {{uname}}</div>
-<div class="info">Surname: {{surname}}</div>
-<div class="info">Addr: {{addr}}</div>
-<div class="info">Phone: {{phone}}</div>
-<div class="info">Spent: {{spent}}</div>
+<div class="action-links-container">
+    <a href="/change_info" class="action-link">Change info</a>
+</div>
 
-<a id="reg_link" href="/change_info">Change info</a>
-<br></br>
+<br><br>
 <h1>Bought items:</h1>
 
 <div class="grid-container">
-
-    {% for item, n in dict_.items() %}
-
+    {% for item in bought %}
     <div class="grid-item">
-        <div>
-            {{item[1]}} #{{item[0]}}
-        </div>
-
-        <div>
-            Seller: {{item[2]}}
-        </div>
-
-        <div>
-            Total number: {{ item[3] }}
-        </div>
-
-        <div>
-            Sold count: {{n}}
-        </div>
-
-        <div>
-            Price: {{item[4]}}
-        </div>
+        <div>{{ item[1] }} #{{ item[0] }}</div>
+        <div>Seller: {{ item[2] }}</div>
+        <div>Total number: {{ item[3] }}</div>
+        <div>Sold count: {{ n_bought }}</div>
+        <div>Price: {{ item[4] }}</div>
     </div>
-
     {% endfor %}
 </div>
-
-
-<h1>Bought items with same name and different ids</h1>
-<div class="grid-container">
-
-    {% for item in duplicates %}
-
-    <div class="grid-item">
-        <div>
-            {{item[0]}}
-        </div>
-    </div>
-
-    {% endfor %}
-</div>
-
-
 
 <form method="POST">
-    <button type="submit">
-        Delete acccount
-    </button>
+    <button type="submit">Delete account</button>
 </form>
 
 {% endblock %}

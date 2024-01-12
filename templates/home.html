@@ -54,9 +54,34 @@
     .buy-button:hover {
         background-color: #45a049;
     }
+    .action-link {
+        display: inline-block;
+        margin: 20px;
+        padding: 10px 20px;
+        background-color: #6A5ACD; /* Theme color */
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: large;
+        transition: background-color 0.3s;
+    }
+
+    .action-link:hover {
+        background-color: #695acd96;
+        text-decoration: none;
+        color: white;
+    }
+
+    .action-links-container {
+        text-align: left;
+        margin-top: 20px;
+    }
 </style>
 
-<a href="/sell">Sell an item</a>
+
+<div class="action-links-container">
+    <a href="/sell"class="action-link">Sell an item</a>
+</div>
 
 <!-- Sorting form -->
 <form method="POST" style="margin-top: 20px;">
@@ -69,22 +94,21 @@
         <option value="Sold count"></option>
         <option value="Price"></option>
     </datalist>
-    <input type="hidden" name="sort_by_form">
-    </input>
-
+    <input type="hidden" name="sort_by_form"></input>
     <button type="submit">Submit</button>
 </form>
 
+
 <!-- Search form -->
 <form method="POST" style="margin-top: 20px;">
-    <input type="text" name="query"></input>
-    <input type="hidden" name="search_form">
-    </input>
-
+    <input type="text" name="query">
+    <input type="hidden" name="sort_by_form"></input>
     <button type="submit">Search</button>
 </form>
 
-<a href="/stats">Statistics</a>
+<div class="action-links-container">
+    <a href="/stats" class="action-link">Statistics</a>
+</div>
 
 <div class="grid-container">
     {% for item in items %}

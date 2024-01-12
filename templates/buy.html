@@ -1,65 +1,63 @@
 {% extends 'base.html' %}
 
-<h1>{% block title %} Buy {% endblock %}</h1>
+{% block title %} Buy {% endblock %}
 
 {% block content %}
 
 <style>
-    .input_box {
-        height: 38px;
-        text-indent: 10px;
-        font-size: 0.365cm;
-        border-radius: 3px;
-        width: 320px;
-        background-color: rgb(250, 250, 220);
-        border-width: 0.05cm;
-        border-style: solid;
-        border-color: rgb(215, 215, 190);
-    }
-
-    #boxes>* {
-        margin: 3px 0;
-    }
-
-    #buy_button {
-        height: 35px;
-        width: 320px;
-        border-radius: 9px;
-        font-size: 0.43cm;
-        font-weight: 600;
-        margin-left: 0px;
-        margin-top: -5px;
-        background-color: rgb(65, 185, 75);
-        border-color: turquoise;
-        color: white;
+    .form-container {
+        background-color: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        max-width: 400px;
+        margin: 50px auto;
         text-align: center;
     }
 
-    #buy_form {
-        margin-top: 250px;
-        margin-left: 775px;
+    .input-box {
+        height: 38px;
+        text-indent: 10px;
+        font-size: 16px;
+        border-radius: 3px;
+        width: 100%;
+        background-color: #fafadc;
+        border: 1px solid #d7d7be;
+        margin-bottom: 20px;
     }
 
-    button {
-        all: unset;
+    #buy_button {
+        height: 40px;
+        width: 100%;
+        border-radius: 5px;
+        font-size: 18px;
+        font-weight: 600;
+        background-color: #41b94b; /* Green button color */
+        border: none;
+        color: white;
+        cursor: pointer;
+    }
+
+    #buy_button:hover {
+        background-color: #369c3b; /* Hover effect */
+    }
+
+    #msg {
+        font-size: x-large;
+        color: #6A5ACD;
     }
 </style>
 
-<form method="post" id="buy_form">
-    <div id="boxes">
-        <input type="text" name="n_buy" class="input_box" placeholder="Count">
-        </input>
-    </div>
+<div class="form-container">
+    <form method="post" id="buy_form">
+        <div id="boxes">
+            <input type="text" name="n_buy" class="input-box" placeholder="Count">
+        </div>
 
-    <br>
-
-    <button type="submit" id="buy_button">Buy</button>
-
-    <br>
-    <br>
-    <label id="msg">{{ msg }}</label>
-
-    </button>
-</form>
+        <button type="submit" id="buy_button">Buy</button>
+        <br><br>
+        <label id="msg">{{ msg }}</label>
+    </form>
+</div>
 
 {% endblock %}

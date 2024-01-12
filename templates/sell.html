@@ -1,84 +1,65 @@
 {% extends 'base.html' %}
 
-<h1>{% block title %} Buy {% endblock %}</h1>
+{% block title %} Sell {% endblock %}
 
 {% block content %}
 
-
 <style>
-    #reg_form {
-        margin-top: 250px;
-        margin-left: 775px;
-    }
-
-    #name_box,
-    #count_box,
-    #price_box {
-        height: 38px;
-        text-indent: 10px;
-        font-size: 0.365cm;
-        border-radius: 3px;
-        width: 320px;
-        background-color: rgb(250, 250, 220);
-        border-width: 0.05cm;
-        border-style: solid;
-        border-color: rgb(215, 215, 190);
-    }
-
-    #sell_button {
-        height: 35px;
-        width: 320px;
-        border-radius: 9px;
-        font-size: 0.43cm;
-        font-weight: 600;
-        margin-left: 0px;
-        margin-top: -5px;
-        background-color: rgb(65, 185, 75);
-        border-color: turquoise;
-        color: white;
+    .form-container {
+        background-color: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        max-width: 400px;
+        margin: 50px auto;
         text-align: center;
     }
 
-    #boxes>* {
-        margin: 3px 0;
+    .input-box {
+        height: 38px;
+        text-indent: 10px;
+        font-size: 16px;
+        border-radius: 3px;
+        width: 100%;
+        background-color: #fafadc;
+        border: 1px solid #d7d7be;
+        margin-bottom: 20px;
     }
 
-    button {
-        all: unset;
+    #sell_button {
+        height: 40px;
+        width: 100%;
+        border-radius: 5px;
+        font-size: 18px;
+        font-weight: 600;
+        background-color: #41b94b; /* Green button color */
+        border: none;
+        color: white;
+        cursor: pointer;
+    }
+
+    #sell_button:hover {
+        background-color: #369c3b; /* Hover effect */
     }
 
     #msg {
         font-size: x-large;
+        color: #6A5ACD;
     }
 </style>
 
-<form method="post" id="reg_form">
+<div class="form-container">
+    <form method="post" id="reg_form">
+        <div id="boxes">
+            <input type="text" name="name" id="name_box" class="input-box" placeholder="Name">
+            <input type="text" name="count" id="count_box" class="input-box" placeholder="Count">
+            <input type="text" name="price" id="price_box" class="input-box" placeholder="Price">
+        </div>
 
-    <div id="boxes">
-        <input type="text" name="name" id="name_box" placeholder="Name">
-        </input>
-
-        <br>
-
-        <input type="text" name="count" id="count_box" placeholder="Count">
-        </input>
-
-        <br>
-
-        <input type="text" name="price" id="price_box" placeholder="Price">
-        </input>
-
-        <br>
-    </div>
-
-    <br>
-
-    <button type="submit" id="sell_button">Sell</button>
-
-    <br>
-    <br>
-    <label id="msg">{{ msg }}</label>
-
-</form>
+        <button type="submit" id="sell_button">Sell</button>
+        <br><br>
+        <label id="msg">{{ msg }}</label>
+    </form>
+</div>
 
 {% endblock %}
