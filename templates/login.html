@@ -1,92 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title> Login - Hobby store </title>
+    <title>Login - Hobby store</title>
 
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
-        #uname_label,
-        #passw_label {
-            font-size: xx-large;
-            line-height: 70px;
+        body {
+            font-family: Arial, sans-serif; /* Consistent font */
+            background-color: #f4f4f4; /* Light background color */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding-top: 56px;
         }
 
         #login_form {
-            margin-top: 250px;
-            margin-left: 775px;
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
         }
 
         #uname_box,
         #passw_box {
             height: 38px;
             text-indent: 10px;
-            font-size: 0.365cm;
+            font-size: 16px;
             border-radius: 3px;
             width: 320px;
-            background-color: rgb(250, 250, 220);
-            border-width: 0.05cm;
-            border-style: solid;
-            border-color: rgb(215, 215, 190);
+            background-color: #fafadc;
+            border: 1px solid #d7d7be;
+            margin-bottom: 20px; /* Spacing between inputs */
         }
 
         #login_button {
-            height: 35px;
+            height: 40px;
             width: 320px;
-            border-radius: 9px;
-            font-size: 0.43cm;
+            border-radius: 5px;
+            font-size: 18px;
             font-weight: 600;
-            margin-left: 0px;
-            margin-top: -5px;
-            background-color: rgb(65, 185, 75);
-            border-color: turquoise;
-            color: white;
-            text-align: center;
+            background-color: #6A5ACD; /* Button color */
+            border: none;
+            color: #F5F5F5;
+            cursor: pointer;
         }
 
-        #boxes>* {
-            margin: 3px 0;
-        }
-
-        button {
-            all: unset;
+        #login_button:hover {
+            background-color: #695acd96; /* Hover effect */
         }
 
         #reg_link {
             font-size: large;
+            color: #6A5ACD; /* Link color to match the theme */
+            text-decoration: none;
+        }
+
+        #reg_link:hover {
+            text-decoration: underline;
         }
 
         #msg {
             font-size: x-large;
+            color: #6A5ACD;
+        }
+        .navbar-custom {
+            background-color: #6A5ACD; /* Adjust to match your logo's color */
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #F5F5F5;
+        }
+
+        .navbar-custom .nav-link:hover {
+            color: #FFD700;
+        }
+
+        .navbar-brand img {
+            height: 60px;
+            margin-right: 10px;
+            border-radius: 7px;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #6A5ACD;
+            color: #F5F5F5;
+            text-align: center;
+            padding: 10px 0;
+            height: 40px;
         }
     </style>
 </head>
 
 <body>
-    <form method="post" id="login_form">
-
-        <div id="boxes">
-            <input type="text" name="uname" id="uname_box" placeholder="Username">
-            </input>
-
-            <br>
-
-            <input type="text" name="passw" id="passw_box" placeholder="Password">
-            </input>
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{{url_for('home')}}">
+                <img src="/static/logo.jpeg" alt="Logo">
+                Hobby Store
+            </a>
         </div>
+    </nav>
 
-        <br>
+    <div>
+        <form method="post" id="login_form">
+            <div id="boxes">
+                <input type="text" name="uname" id="uname_box" placeholder="Username">
+                <input type="password" name="passw" id="passw_box" placeholder="Password">
+            </div>
 
-        <button type="submit" id="login_button">Log in</button>
-        <br>
-        <br>
-        <a id="reg_link" href="/register">Register</a>
+            <button type="submit" id="login_button">Log in</button>
+            <br><br>
+            <a id="reg_link" href="/register">Register</a>
+            <br><br>
+            <label id="msg">{{ msg }}</label>
+        </form>
 
-        <br>
-        <br>
-        <label id="msg">{{ msg }}</label>
+    </div>
 
-    </form>
+
+    <div class="footer">
+        <p>&copy; 2024 Hobby Store created by İlyas-Arda</p>
+    </div>
 </body>
-
 </html>
