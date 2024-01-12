@@ -33,14 +33,14 @@
             font-size: 16px;
             border-radius: 3px;
             width: 320px;
-            background-color: #fafadc;
+            background-color: #ffffff;
             border: 1px solid #d7d7be;
             margin-bottom: 20px; /* Spacing between inputs */
         }
 
-        #login_button {
+        #login_button, #reg_button {
             height: 40px;
-            width: 320px;
+            width: 300px;
             border-radius: 5px;
             font-size: 18px;
             font-weight: 600;
@@ -48,26 +48,18 @@
             border: none;
             color: #F5F5F5;
             cursor: pointer;
+            text-align: center;
         }
 
-        #login_button:hover {
+        #login_button:hover, #reg_button:hover {
             background-color: #695acd96; /* Hover effect */
-        }
-
-        #reg_link {
-            font-size: large;
-            color: #6A5ACD; /* Link color to match the theme */
-            text-decoration: none;
-        }
-
-        #reg_link:hover {
-            text-decoration: underline;
         }
 
         #msg {
             font-size: x-large;
             color: #6A5ACD;
         }
+
         .navbar-custom {
             background-color: #6A5ACD; /* Adjust to match your logo's color */
         }
@@ -97,30 +89,33 @@
             padding: 10px 0;
             height: 40px;
         }
+
+        .button {
+            all: unset;
+        }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="{{url_for('home')}}">
-                <img src="/static/logo.jpeg" alt="Logo">
-                Hobby Store
-            </a>
-        </div>
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top justify-content-center">
+        <a class="navbar-brand" href="{{url_for('home')}}">
+            <img src="/static/logo.jpeg" alt="Logo">
+            Hobby Store
+        </a>
     </nav>
 
     <div>
         <form method="post" id="login_form">
             <div id="boxes">
-                <input type="text" name="uname" id="uname_box" placeholder="Username">
-                <input type="password" name="passw" id="passw_box" placeholder="Password">
+                <input type="text" name="uname" id="uname_box" placeholder="Username"></input>
+                <br>
+
+                <input type="password" name="passw" id="passw_box" placeholder="Password"></input>
             </div>
 
             <button type="submit" id="login_button">Log in</button>
             <br><br>
-            <a id="reg_link" href="/register">Register</a>
-            <br><br>
+            <button type="submit" id="reg_button">Register</button>
             <label id="msg">{{ msg }}</label>
         </form>
 
@@ -128,7 +123,7 @@
 
 
     <div class="footer">
-        <p>&copy; 2024 Hobby Store created by İlyas-Arda</p>
+        <p>&copy; 2024 Hobby store developed by Ilyas and Arda</p>
     </div>
 </body>
 </html>
