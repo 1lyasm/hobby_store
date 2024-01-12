@@ -173,7 +173,7 @@ def register():
         passw = request.form["passw"]
 
         if len(uname) == 0 or len(passw) == 0:
-            msg = "Username and password can not be empty"
+            msg = "Name/password are required"
         else:
             msg = add_user(uname, surname, addr, phone, passw)
             if len(msg) > 0:

@@ -30,7 +30,7 @@
             font-size: 16px;
             border-radius: 3px;
             width: 320px;
-            background-color: #fafadc;
+            background-color: #ffffff;
             border: 1px solid #d7d7be;
             margin-bottom: 20px;
         }
@@ -69,8 +69,9 @@
         }
 
         .navbar-brand img {
-            height: 40px;
+            height: 60px;
             margin-right: 10px;
+            border-radius: 7px;
         }
 
         .footer {
@@ -88,8 +89,9 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
         <div class="container">
-            <a class="navbar-brand">
-                <img src="logo.png" alt="Logo"> Hobby Store
+            <a class="navbar-brand" href="{{url_for('home')}}">
+                <img src="/static/logo.jpeg" alt="Logo">
+                Hobby Store
             </a>
         </div>
     </nav>
@@ -97,19 +99,32 @@
     <div>
         <form method="post" id="reg_form">
             <div id="boxes">
-                <input type="text" name="uname" id="uname_box" class="input-box" placeholder="Username">
-                <input type="text" name="surname" id="surname_box" class="input-box" placeholder="Surname">
-                <input type="text" name="addr" id="addr_box" class="input-box" placeholder="Address">
-                <input type="text" name="phone" id="phone_box" class="input-box" placeholder="Phone">
-                <input type="password" name="passw" id="passw_box" class="input-box" placeholder="Password">
+                <input type="text" name="uname" id="uname_box"
+                    class="input-box" placeholder="Username"></inp>
+                <br>
+
+                <input type="text" name="surname" id="surname_box"
+                    class="input-box" placeholder="Surname"></inp>
+                <br>
+
+                <input type="text" name="addr" id="addr_box"
+                    class="input-box" placeholder="Address"></inp>
+                <br>
+
+                <input type="text" name="phone" id="phone_box"
+                    class="input-box" placeholder="Phone"></inp>
+                <br>
+
+                <input type="password" name="passw" id="passw_box"
+                    class="input-box" placeholder="Password"></inp>
             </div>
-    
+
             <button type="submit" id="reg_button">Register</button>
             <br><br>
             <label id="msg">{{ msg }}</label>
         </form>
     </div>
-    
+
 
     <div class="footer">
         <p>&copy; 2024 Hobby Store created by İlyas-Arda</p>
