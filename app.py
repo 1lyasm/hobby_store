@@ -107,15 +107,23 @@ def check_passw(uname, passw):
 def login():
     msg = ""
     if request.method == "POST":
-        uname, passw = request.form["uname"], request.form["passw"]
-        passw_is_correct, msg = check_passw(uname, passw)
-        if passw_is_correct is True:
-            global logged_in
-            global cur_user
-            logged_in = True
-            cur_user = uname
-            return redirect("/home")
+        login_button = request.form.get("login_button")
+        reg_button = request.form.get("reg_button")
+
+        if login_button is not None:
+            uname, passw = request.form["uname"], request.form["passw"]
+            passw_is_correct, msg = check_passw(uname, passw)
+            if passw_is_correct is True:
+                global logged_in
+                global cur_user
+                logged_in = True
+                cur_user = uname
+                return redirect("/home")
+        elif reg_button is not None:
+            return redirect("/register")
+
     return render_template("login.html", msg=msg)
+
 
 def add_user(name, surname, addr, phone, passw):
     conn = connect()
