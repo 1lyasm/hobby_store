@@ -54,6 +54,7 @@
     .buy-button:hover {
         background-color: #45a049;
     }
+
     .action-link {
         display: inline-block;
         margin: 20px;
@@ -76,17 +77,39 @@
         text-align: left;
         margin-top: 20px;
     }
+
+    .submit_button {
+        margin-left: 10px;
+        background-color: #6A5ACD;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+        height: 35px;
+        width: 80px;
+    }
+
+    .submit_button:hover {
+        background-color: #695acd96;
+        text-decoration: none;
+        color: white;
+    }
+
+    .input_form {
+        border-radius: 5px;
+    }
+
+    .input_label {
+        font-size: 22px;
+        margin-right: 5px;
+    }
+
 </style>
 
-
-<div class="action-links-container">
-    <a href="/sell"class="action-link">Sell an item</a>
-</div>
-
 <!-- Sorting form -->
-<form method="POST" style="margin-top: 20px;">
-    <label for="col_to_sort">Sort by:</label>
-    <input type="text" name="col_to_sort" list="col_list">
+<form method="POST" style="margin-left: 20px; margin-top: 75px; display: inline-block">
+    <label for="col_to_sort" class="input_label">Sort by:</label>
+    <input type="text" name="col_to_sort" list="col_list" class="input_form">
     <datalist id="col_list">
         <option value="Name"></option>
         <option value="Seller"></option>
@@ -95,16 +118,21 @@
         <option value="Price"></option>
     </datalist>
     <input type="hidden" name="sort_by_form"></input>
-    <button type="submit">Submit</button>
+    <button type="submit" class="submit_button">Submit</button>
 </form>
 
 
 <!-- Search form -->
-<form method="POST" style="margin-top: 20px;">
-    <input type="text" name="query">
-    <input type="hidden" name="sort_by_form"></input>
-    <button type="submit">Search</button>
+<form method="POST" style="margin-left: 140px; margin-top: 20px; display: inline-block">
+    <label for="query" class="input_label">Search:</label>
+    <input type="text" name="query" class="input_form">
+    <input type="hidden" name="search_form"></input>
+    <button type="submit" class="submit_button">Submit</button>
 </form>
+
+<div class="action-links-container">
+    <a href="/sell" class="action-link">Sell an item</a>
+</div>
 
 <div class="action-links-container">
     <a href="/stats" class="action-link">Statistics</a>
