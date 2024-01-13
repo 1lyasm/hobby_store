@@ -330,7 +330,7 @@ def buy():
         msg = save_buy(count)
         if len(msg) > 0:
             return render_template("buy.html", msg=msg)
-        return redirect("/home")
+        return redirect("/buy")
     return render_template("buy.html", msg=msg)
 
 
