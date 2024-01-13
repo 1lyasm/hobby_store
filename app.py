@@ -24,7 +24,7 @@ def fetch_items():
     conn = connect()
     cursor = conn.cursor()
     cursor.execute("select items.id, items.name, users.name, n_total, n_sold,"
-                   "price from items, users where items.seller = users.id")
+                   "price, color from items, users where items.seller = users.id")
     items = cursor.fetchall()
     cursor.close()
     conn.close()
@@ -46,7 +46,7 @@ def sort_items(col_to_sort):
             table_prefix = "n_sold"
         elif col_to_sort == "Price":
             table_prefix = "price"
-        cursor.execute(f"""select id, item_name, seller_name, n_total, n_sold, price
+        cursor.execute(f"""select id, item_name, seller_name, n_total, n_sold, price, color
                         from {table_prefix}_sorted;""")
         items = cursor.fetchall()
 
@@ -57,31 +57,58 @@ def sort_items(col_to_sort):
 def search(query):
     conn = connect()
     cursor = conn.cursor()
+
     cursor.execute(f"select * from search('%{query}%')")
     items = cursor.fetchall()
-    print(f"items: {items}")
+    print(f"search: items: {items}")
+
     cursor.close()
     conn.close()
     return items
+
+
+def filter_by_color(color):
+    conn = connect()
+    cursor = conn.cursor()
+
+    cursor.execute(f"select * from filter_by_color('{color}')")
+    items = cursor.fetchall()
+    print(f"filter_by_color: items: {items}")
+
+    cursor.close()
+    conn.close()
+
+    return items
+
 
 @app.route("/home", methods=('GET', 'POST'))
 def home():
     if logged_in is False:
         return redirect("/login")
+
     if request.method == "POST" and "sort_by_form" in request.form.keys():
         col_to_sort = request.form["col_to_sort"]
         items = sort_items(col_to_sort)
         return render_template("home.html", items=items)
+
     elif request.method == "POST" and "search_form" in request.form.keys():
         query = request.form["query"]
         items = search(query)
         return render_template("home.html", items=items)
+
+    elif request.method == "POST" and "filter_by_color_form" in request.form.keys():
+        color = request.form["color_to_filter"]
+        items = filter_by_color(color)
+        return render_template("home.html", items=items)
+
     elif request.method == "POST":
         global buy_id
         buy_id = request.form["buy_id"]
         return redirect("/buy")
+
     items = fetch_items()
     return render_template("home.html", items=items)
+
 
 @app.route("/about")
 def about():
@@ -337,22 +364,25 @@ def check_inp(name, count, price):
         msg = "Count must be int and price must be decimal number"
     return msg
 
-def add_item(name, count, price):
+def add_item(name, count, price, color):
     conn = connect()
     cursor = conn.cursor()
+
     msg = ""
     cursor.execute(f"select id from users where name = '{cur_user}';")
     cur_id = cursor.fetchall()[0][0]
     cursor.execute("begin")
     try:
         cursor.execute(f"""insert into items values(nextval('items_ids'),
-                   '{name}', {cur_id}, {count}, 0, {price});""")
+                   '{name}', {cur_id}, {count}, 0, {price}, '{color}');""")
     except:
         cursor.execute("rollback;")
         msg = "Can not have more than 3 items with same name, enter different name"
     cursor.execute("end")
+
     cursor.close()
     conn.close()
+
     return msg
 
 @app.route("/sell", methods=('GET', 'POST'))
@@ -362,10 +392,11 @@ def sell():
         name = request.form["name"]
         count = request.form["count"]
         price = request.form["price"]
+        color = request.form["color"]
         msg = check_inp(name, count, price)
         if len(msg) > 0:
             return render_template("sell.html", msg=msg)
-        msg = add_item(name, count, price)
+        msg = add_item(name, count, price, color)
         if len(msg) > 0:
             return render_template("sell.html", msg=msg)
         return redirect("/home")

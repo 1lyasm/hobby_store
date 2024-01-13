@@ -65,23 +65,24 @@ create table items (
     seller int not null,
     n_total int not null,
     n_sold int not null default 0,
-    price numeric not null
+    price numeric not null,
+    color varchar(25)
 );
 
 drop sequence if exists items_ids;
 create sequence items_ids start 0 increment 1 minvalue 0;
 
-insert into items values(nextval('items_ids'), 'candle', 9, 3, 0, 1.2);
+insert into items values(nextval('items_ids'), 'candle', 9, 3, 0, 1.2, 'Red');
 insert into items values(nextval('items_ids'), 'soap', 7, 2, 0, 6.5);
-insert into items values(nextval('items_ids'), 'necklace', 2, 4, 0, 19.2);
-insert into items values(nextval('items_ids'), 'knitting work', 3, 1, 0, 60);
+insert into items values(nextval('items_ids'), 'necklace', 2, 4, 0, 19.2, 'White');
+insert into items values(nextval('items_ids'), 'knitting work', 3, 1, 0, 60, 'Blue');
 insert into items values(nextval('items_ids'), 'carpet', 5, 10, 0, 679.9);
-insert into items values(nextval('items_ids'), 'bracelet', 9, 2, 0, 9.9);
+insert into items values(nextval('items_ids'), 'bracelet', 9, 2, 0, 9.9, 'Red');
 insert into items values(nextval('items_ids'), 'portrait', 2, 3, 0, 990.9);
-insert into items values(nextval('items_ids'), 'soap', 6, 10, 0, 7.6);
-insert into items values(nextval('items_ids'), 'bracelet', 6, 2, 0, 8.1);
+insert into items values(nextval('items_ids'), 'soap', 6, 10, 0, 7.6, 'Green');
+insert into items values(nextval('items_ids'), 'bracelet', 6, 2, 0, 8.1, 'White');
 insert into items values(nextval('items_ids'), 'necklace', 1, 2, 0, 50);
-insert into items values(nextval('items_ids'), 'candle', 7, 4, 0, 100);
+insert into items values(nextval('items_ids'), 'candle', 7, 4, 0, 100, 'Black');
 
 create or replace function check_duplicates() returns boolean as $$
     declare
@@ -155,41 +156,43 @@ insert into buy values(nextval('buy_sequence'), 9, 0, 2);
 
 create view item_name_sorted as
 select items.id as id, items.name as item_name,
-        users.name as seller_name, n_total, n_sold, price
+        users.name as seller_name, n_total, n_sold, price, color
         from items, users where items.seller = users.id
 order by item_name;
 
 create view seller_name_sorted as
 select items.id as id, items.name as item_name,
-        users.name as seller_name, n_total, n_sold, price
+        users.name as seller_name, n_total, n_sold, price, color
         from items, users where items.seller = users.id
 order by seller_name;
 
 create view n_total_sorted as
 select items.id as id, items.name as item_name,
-        users.name as seller_name, n_total, n_sold, price
+        users.name as seller_name, n_total, n_sold, price, color
         from items, users where items.seller = users.id
 order by n_total;
 
 create view n_sold_sorted as
 select items.id as id, items.name as item_name,
-        users.name as seller_name, n_total, n_sold, price
+        users.name as seller_name, n_total, n_sold, price, color
         from items, users where items.seller = users.id
 order by n_sold;
 
 create view price_sorted as
 select items.id as id, items.name as item_name,
-        users.name as seller_name, n_total, n_sold, price
+        users.name as seller_name, n_total, n_sold, price, color
         from items, users where items.seller = users.id
 order by price;
 
+drop function search(text);
 create or replace function search(query text) returns table (
     id int,
     name varchar(25),
     seller_name varchar(25),
     n_total int,
     n_sold int,
-    price numeric
+    price numeric,
+    color varchar(25)
 ) as $$
     declare
         rec record;
@@ -197,7 +200,7 @@ create or replace function search(query text) returns table (
             select
                 items.id as id, items.name as name, users.name as seller_name,
                 items.n_total as n_total, items.n_sold as n_sold,
-                items.price as price
+                items.price as price, items.color as color
             from items, users
             where items.seller = users.id and
                     items.name like query;
@@ -209,6 +212,41 @@ create or replace function search(query text) returns table (
             n_total = rec.n_total;
             n_sold = rec.n_sold;
             price = rec.price;
+            color = rec.color;
+            return next;
+        end loop;
+    end;
+$$ language 'plpgsql';
+
+drop function filter_by_color(text);
+create or replace function filter_by_color(filter_color text) returns table (
+    id int,
+    name varchar(25),
+    seller_name varchar(25),
+    n_total int,
+    n_sold int,
+    price numeric,
+    color varchar(25)
+) as $$
+    declare
+        rec record;
+        matches cursor for
+            select
+                items.id as id, items.name as name, users.name as seller_name,
+                items.n_total as n_total, items.n_sold as n_sold,
+                items.price as price, items.color as color
+            from items, users
+            where items.seller = users.id and
+                    items.color = filter_color;
+    begin
+        for rec in matches loop
+            id = rec.id;
+            name = rec.name;
+            seller_name = rec.seller_name;
+            n_total = rec.n_total;
+            n_sold = rec.n_sold;
+            price = rec.price;
+            color = rec.color;
             return next;
         end loop;
     end;
