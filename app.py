@@ -301,6 +301,7 @@ def account():
 def save_buy(count):
     conn = connect()
     cursor = conn.cursor()
+
     msg = ""
     cursor.execute("begin")
     try:
@@ -310,14 +311,26 @@ def save_buy(count):
         seller = cursor.fetchall()[0][0]
         if seller == user_id:
             raise AttributeError
+        cursor.execute(f"select spent from users where id = {user_id}")
+        old_spent = cursor.fetchall()[0][0]
+        cursor.execute(f"select n_sold from items where id = {buy_id}")
+        old_n_sold = cursor.fetchall()[0][0]
         cursor.execute(f"insert into buy values(nextval('buy_sequence'), {user_id}, {buy_id}, {count});")
-    except AttributeError:
+        cursor.execute(f"select spent from users where id = {user_id}")
+        new_spent = cursor.fetchall()[0][0]
+        cursor.execute(f"select n_sold from items where id = {buy_id}")
+        new_n_sold = cursor.fetchall()[0][0]
+        msg += f"Sold count of {buy_id} numbered item went from {old_n_sold} to {new_n_sold}. "
+        msg += f"Amount spent went from {old_spent} to {new_spent}."
+    except AttributeError as e:
+        print(e)
         cursor.execute("rollback")
         msg = "Can not buy from yourself"
     except Exception as e:
         cursor.execute("rollback")
         msg = "That many items are not in stock, please enter smaller amount"
     cursor.execute("end")
+
     cursor.close()
     conn.close()
     return msg
