@@ -9,7 +9,7 @@ create table users (
     surname varchar(25),
     addr varchar(150),
     phone varchar(20),
-    spent int not null default 0
+    spent real not null default 0
 );
 
 create table passwords (
@@ -142,6 +142,20 @@ $$ language 'plpgsql';
 create or replace trigger trig_update_sold after insert on buy
     for each row
     execute function update_sold();
+
+create or replace function update_spent() returns trigger as $$
+    begin
+        update users
+        set spent = spent + items.price * new.n
+        from items
+        where users.id = new.user_id and items.id = new.item_id;
+        return new;
+    end;
+$$ language 'plpgsql';
+
+create or replace trigger trig_update_spent after insert on buy
+    for each row
+    execute function update_spent();
 
 insert into buy values(nextval('buy_sequence'), 0, 9, 1);
 insert into buy values(nextval('buy_sequence'), 1, 8, 2);
