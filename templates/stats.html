@@ -5,6 +5,18 @@
 {% block content %}
 
 <style>
+body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding-top: 56px;
+        }
+
+
     .form-container {
         background-color: white;
         padding: 40px;
@@ -25,7 +37,7 @@
 
     .input-box {
         text-indent: 10px;
-        background-color: #fafadc;
+        background-color: white;
         border: 1px solid #d7d7be;
     }
 
@@ -39,6 +51,13 @@
     button:hover {
         background-color: #695acd96; /* Hover effect */
     }
+
+    .msg {
+        font-size: x-large;
+        color: #6A5ACD;
+    }
+
+
 </style>
 
 <div class="form-container">
@@ -53,9 +72,8 @@
             <option value="Sum"></option>
         </datalist>
         <button type="submit">Submit</button>
+        <text class="msg">{{res}}</text>
     </form>
 </div>
-
-{{ res }}
 
 {% endblock %}

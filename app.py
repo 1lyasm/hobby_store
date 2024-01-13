@@ -403,6 +403,9 @@ def sell():
     return render_template("sell.html", msg=msg)
 
 def fetch_stat(stat):
+    if len(stat) < 1:
+        return ""
+
     conn = connect()
     cursor = conn.cursor()
 
@@ -427,6 +430,10 @@ def fetch_stat(stat):
         res = cursor.fetchall()[0][0]
     else:
         raise Exception
+
+    if res is not None:
+        res = round(res, 2)
+        res = f"{stat}: {res}"
 
     cursor.close()
     conn.close()
