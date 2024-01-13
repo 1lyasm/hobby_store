@@ -56,8 +56,6 @@
     }
 
     .action-link {
-        display: inline-block;
-        margin: 20px;
         padding: 10px 20px;
         background-color: #6A5ACD; /* Theme color */
         color: white;
@@ -78,7 +76,7 @@
         margin-top: 20px;
     }
 
-    .submit_button {
+    #search_button, #filter_button, #sort_button {
         margin-left: 10px;
         background-color: #6A5ACD;
         color: white;
@@ -89,14 +87,19 @@
         width: 80px;
     }
 
-    .submit_button:hover {
+    #search_button:hover, #filter_button:hover, #sort_button:hover {
         background-color: #695acd96;
         text-decoration: none;
         color: white;
     }
 
-    .input_form {
+    #search_form, #filter_form {
         border-radius: 5px;
+    }
+
+    #sort_form {
+        border-radius: 5px;
+        margin-left: 61px;
     }
 
     .input_label {
@@ -109,7 +112,7 @@
 <!-- Sorting form -->
 <form method="POST" style="margin-left: 20px; margin-top: 75px; display: inline-block">
     <label for="col_to_sort" class="input_label">Sort by:</label>
-    <input type="text" name="col_to_sort" list="col_list" class="input_form">
+    <input type="text" name="col_to_sort" list="col_list" id="sort_form">
     <datalist id="col_list">
         <option value="Name"></option>
         <option value="Seller"></option>
@@ -118,22 +121,22 @@
         <option value="Price"></option>
     </datalist>
     <input type="hidden" name="sort_by_form"></input>
-    <button type="submit" class="submit_button">Sort</button>
+    <button type="submit" id="sort_button">Sort</button>
 </form>
 
 
 <!-- Search form -->
-<form method="POST" style="margin-left: 140px; margin-top: 20px; display: inline-block">
+<form method="POST" style="margin-left: 89px; margin-top: 20px; display: inline-block">
     <label for="query" class="input_label">Search:</label>
-    <input type="text" name="query" class="input_form">
+    <input type="text" name="query" id="search_form">
     <input type="hidden" name="search_form"></input>
-    <button type="submit" class="submit_button">Search</button>
+    <button type="submit" id="search_button">Search</button>
 </form>
 
 <!-- Filter by color form -->
 <form method="POST" style="margin-left: 20px; margin-top: 20px; display: inline-block">
     <label for="color_to_filter" class="input_label">Filter by color:</label>
-    <input type="text" name="color_to_filter" list="color_list" class="input_form">
+    <input type="text" name="color_to_filter" list="color_list" id="filter_form">
     <datalist id="color_list">
         <option value="White"></option>
         <option value="Black"></option>
@@ -142,16 +145,16 @@
         <option value="Red"></option>
     </datalist>
     <input type="hidden" name="filter_by_color_form"></input>
-    <button type="submit" class="submit_button">Filter</button>
+    <button type="submit" id="filter_button">Filter</button>
 </form>
 
+<br>
 
-
-<div class="action-links-container">
+<div style="margin-top: 30px; margin-left: 20px; display: inline-block;">
     <a href="/sell" class="action-link">Sell an item</a>
 </div>
 
-<div class="action-links-container">
+<div style="margin-left: 410px; display: inline-block;">
     <a href="/stats" class="action-link">Statistics</a>
 </div>
 
