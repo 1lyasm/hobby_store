@@ -16,6 +16,33 @@ body {
             padding-top: 56px;
         }
 
+.grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 20px;
+        margin-top: 25px;
+    }
+
+    .grid-item {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+    }
+
+    .grid-item:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
+    }
+
+    .item-title {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+
 
     .form-container {
         background-color: white;
@@ -91,7 +118,11 @@ body {
 <div class="form-container">
     <form method="POST">
         <label for="stats" class="input_label">Price statistics:</label>
-        <input type="text" name="stat" class="input_form" list="stat_list">
+
+        <input type="text" name="stat" class="input_form" list="stat_list"></input>
+
+        <input type="hidden" name="stats_form"></input>
+
         <datalist id="stat_list">
             <option value="Min"></option>
             <option value="Max"></option>
@@ -126,5 +157,19 @@ body {
         <button type="submit" id="range_button" class="submit_button">Submit</button>
     </form>
 </div>
+
+<div class="grid-container">
+    {% for item in items %}
+    <div class="grid-item">
+        <div class="item-title">{{item[1]}} #{{item[0]}}</div>
+        <div class="item-detail">Seller: {{item[2]}}</div>
+        <div class="item-detail">Total number: {{item[3]}}</div>
+        <div class="item-detail">Sold count: {{item[4]}}</div>
+        <div class="item-detail">Price: {{item[5]}}</div>
+        <div class="item-detail">Color: {{item[6]}}</div>
+    </div>
+    {% endfor %}
+</div>
+
 
 {% endblock %}

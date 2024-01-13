@@ -441,12 +441,33 @@ def fetch_stat(stat):
     return res
 
 
+def fetch_items_in_range(min_, max_):
+    conn = connect()
+    cursor = conn.cursor()
+
+    cursor.execute(f"select * from fetch_items_in_range({min_}, {max_})")
+    items = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return items
+
+
 @app.route("/stats", methods=('GET', 'POST'))
 def stats():
     res = ""
-    if request.method == "POST":
+
+    if request.method == "POST" and "stats_form" in request.form.keys():
         stat = request.form["stat"]
         res = fetch_stat(stat)
-        return render_template("stats.html", res=res)
+        return render_template("stats.html", res=res, items=[])
+
+    elif request.method == "POST" and "range_form" in request.form.keys():
+        min_ = request.form["min_price"]
+        max_ = request.form["max_price"]
+        items = fetch_items_in_range(min_, max_)
+        return render_template("stats.html", res="", items=items)
+
     return render_template("stats.html", res=res)
 

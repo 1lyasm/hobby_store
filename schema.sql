@@ -252,4 +252,44 @@ create or replace function filter_by_color(filter_color text) returns table (
     end;
 $$ language 'plpgsql';
 
+drop function fetch_items_in_range(int, int);
+create or replace function fetch_items_in_range(min_ int, max_ int) returns table (
+    id int,
+    name varchar(25),
+    seller_name varchar(25),
+    n_total int,
+    n_sold int,
+    price numeric,
+    color varchar(25)
+) as $$
+    declare
+        rec record;
+        matches cursor for
+            (select
+                items.id as id, items.name as name, users.name as seller_name,
+                items.n_total as n_total, items.n_sold as n_sold,
+                items.price as price, items.color as color
+            from items, users
+            where items.price >= min_ and items.seller = users.id)
+            intersect
+            (select
+                items.id as id, items.name as name, users.name as seller_name,
+                items.n_total as n_total, items.n_sold as n_sold,
+                items.price as price, items.color as color
+            from items, users
+            where items.price <= max_ and items.seller = users.id);
+    begin
+        for rec in matches loop
+            id = rec.id;
+            name = rec.name;
+            seller_name = rec.seller_name;
+            n_total = rec.n_total;
+            n_sold = rec.n_sold;
+            price = rec.price;
+            color = rec.color;
+            return next;
+        end loop;
+    end;
+$$ language 'plpgsql';
+
 end;
