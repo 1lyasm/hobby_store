@@ -33,19 +33,23 @@ def fetch_items():
 def sort_items(col_to_sort):
     conn = connect()
     cursor = conn.cursor()
-    if col_to_sort == "Name":
-        table_prefix = "item_name"
-    elif col_to_sort == "Seller":
-        table_prefix = "seller_name"
-    elif col_to_sort == "Total count":
-        table_prefix = "n_total"
-    elif col_to_sort == "Sold count":
-        table_prefix = "n_sold"
-    elif col_to_sort == "Price":
-        table_prefix = "price"
-    cursor.execute(f"""select id, item_name, seller_name, n_total, n_sold, price
-                   from {table_prefix}_sorted;""")
-    items = cursor.fetchall()
+
+    items = []
+    if (len(col_to_sort) > 0):
+        if col_to_sort == "Name":
+            table_prefix = "item_name"
+        elif col_to_sort == "Seller":
+            table_prefix = "seller_name"
+        elif col_to_sort == "Total count":
+            table_prefix = "n_total"
+        elif col_to_sort == "Sold count":
+            table_prefix = "n_sold"
+        elif col_to_sort == "Price":
+            table_prefix = "price"
+        cursor.execute(f"""select id, item_name, seller_name, n_total, n_sold, price
+                        from {table_prefix}_sorted;""")
+        items = cursor.fetchall()
+
     cursor.close()
     conn.close()
     return items
