@@ -276,8 +276,15 @@ def fetch_duplicate_named_items():
 @app.route("/account", methods=('GET', 'POST'))
 def account():
     if request.method == "POST":
-        delete_user()
-        return redirect("/login")
+        delete_ = request.form.get("delete_button")
+        change_ = request.form.get("change_button")
+
+        if delete_ is not None:
+            delete_user()
+            return redirect("/login")
+        elif change_ is not None:
+            return redirect("/change_info")
+
     uname, surname, addr, phone, spent = fetch_info()
     if surname is None:
         surname = ""
