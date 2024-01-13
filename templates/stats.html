@@ -9,7 +9,7 @@ body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             display: flex;
-            align-items: center;
+            align-items: normal;
             justify-content: center;
             height: 100vh;
             margin: 0;
@@ -19,12 +19,13 @@ body {
 
     .form-container {
         background-color: white;
-        padding: 40px;
+        padding: 10px;
         border-radius: 10px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        max-width: 400px;
-        margin: 50px auto;
+        max-width: 700px;
         text-align: center;
+        margin-top: 56px;
+        margin-left: 200px;
     }
 
     .input-box, button {
@@ -57,13 +58,40 @@ body {
         color: #6A5ACD;
     }
 
+    .submit_button {
+        margin-left: 10px;
+        background-color: #6A5ACD;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+        height: 35px;
+        width: 80px;
+    }
+
+    .submit_button:hover {
+        background-color: #695acd96;
+        text-decoration: none;
+        color: white;
+    }
+
+    .input_form {
+        border-radius: 5px;
+    }
+
+    .input_label {
+        font-size: 22px;
+        margin-right: 5px;
+        margin-top: 10px;
+        margin-bottom: 30px;
+    }
 
 </style>
 
 <div class="form-container">
     <form method="POST">
-        <label for="stats">Price statistics:</label>
-        <input type="text" name="stat" class="input-box" list="stat_list">
+        <label for="stats" class="input_label">Price statistics:</label>
+        <input type="text" name="stat" class="input_form" list="stat_list">
         <datalist id="stat_list">
             <option value="Min"></option>
             <option value="Max"></option>
@@ -71,8 +99,31 @@ body {
             <option value="Average"></option>
             <option value="Sum"></option>
         </datalist>
-        <button type="submit">Submit</button>
+        <br>
+
+        <button type="submit" class="submit_button">Submit</button>
+        <br>
+
         <text class="msg">{{res}}</text>
+    </form>
+
+</div>
+
+
+<div class="form-container">
+  <form method="POST">
+            <label for="min_price" class="input_label">Minimum price:</label>
+            <input type="number" name="min_price" class="input_form"></input>
+
+            <br>
+
+            <label for="max_price" class="input_label">Maximum price:</label>
+            <input type="number" name="max_price" class="input_form"></input>
+
+        <input type="hidden" name="range_form"></input>
+
+        <br>
+        <button type="submit" id="range_button" class="submit_button">Submit</button>
     </form>
 </div>
 
